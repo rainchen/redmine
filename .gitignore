@@ -16,3 +16,4 @@
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
+nbproject/
