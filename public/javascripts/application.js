@@ -162,3 +162,24 @@ Event.observe(window, 'load', function() {
    estimated.innerHTML = estimated.innerHTML + "("+sum+")";
  }
 });
+
+// Extending Prototype - getInnerText()
+// http://tobielangel.com/2006/10/18/extending-prototype-getinnertext
+Element.addMethods({
+  getInnerText: function(element) {
+    element = $(element);
+    return element.innerText && !window.opera ? element.innerText
+      : element.innerHTML.stripScripts().unescapeHTML().replace(/[\n\r\s]+/g, ' ');
+  }
+});
+
+// show sum of spent time
+Event.observe(window, 'load', function() {
+  var spent;
+  $$('#content th').each(function(e){ if(e.innerHTML == 'Spent hours')spent = e});
+  console.log(spent);
+ if(spent){
+   var sum = ($$("td.spent_hours").inject(0, function(sum, td){ sum = sum+parseFloat(td.getInnerText() == '-' ? 0.0 : td.getInnerText().replace(/ hour/, ''));return sum; })).toFixed(1);
+   spent.innerHTML = spent.innerHTML + "("+sum+")";
+ }
+});
