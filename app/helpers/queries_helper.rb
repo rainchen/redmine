@@ -52,6 +52,8 @@ module QueriesHelper
           progress_bar(value, :width => '80px')
         when :fixed_version
           link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
+        when :spent_hours
+          value > 0 ? (link_to l_hours(value), {:controller => 'timelog', :action => 'details', :project_id => issue.project, :issue_id => issue}) : "-"
         else
           h(value)
         end
