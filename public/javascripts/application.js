@@ -177,7 +177,6 @@ Element.addMethods({
 Event.observe(window, 'load', function() {
   var spent;
   $$('#content th').each(function(e){ if(e.innerHTML == 'Spent hours')spent = e});
-  console.log(spent);
  if(spent){
    var sum = ($$("td.spent_hours").inject(0, function(sum, td){ sum = sum+parseFloat(td.getInnerText() == '-' ? 0.0 : td.getInnerText().replace(/ hour/, ''));return sum; })).toFixed(1);
    spent.innerHTML = spent.innerHTML + "("+sum+")";
