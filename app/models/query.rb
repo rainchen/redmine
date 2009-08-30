@@ -78,6 +78,7 @@ class Query < ActiveRecord::Base
                   "t+"  => :label_in,
                   "t"   => :label_today,
                   "w"   => :label_this_week,
+                  "m"   => :label_this_month,
                   ">t-" => :label_less_than_ago,
                   "<t-" => :label_more_than_ago,
                   "t-"  => :label_ago,
@@ -90,7 +91,7 @@ class Query < ActiveRecord::Base
                                  :list_status => [ "o", "=", "!", "c", "*" ],
                                  :list_optional => [ "=", "!", "!*", "*" ],
                                  :list_subprojects => [ "*", "!*", "=" ],
-                                 :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
+                                 :date => [ "<t+", ">t+", "t+", "t", "w", "m", ">t-", "<t-", "t-" ],
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
@@ -134,7 +135,7 @@ class Query < ActiveRecord::Base
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or 
           # filter doesn't require any value
-          ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
+          ["o", "c", "!*", "*", "t", "w", "m"].include? operator_for(field)
     end if filters
   end
   
@@ -428,6 +429,8 @@ class Query < ActiveRecord::Base
       sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     when "!~"
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
+    when "m"
+      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Time.now.beginning_of_month), connection.quoted_date(Time.now.end_of_month)]
     end
     
     return sql
