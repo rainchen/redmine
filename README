@@ -1,0 +1,10 @@
+== About
+  added features:
+    Show sum of estimated time	@	08/30/2009
+    Sum total spent hours in issue list
+    Show spend time in issues list	@	08/30/2009
+    Show spent hours when export to csv @	08/30/2009
+    Add query filter operator for date type column: this month	Rain Chen	08/30/2009
+
+== Setup
+  read docs/INSTALL
