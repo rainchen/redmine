@@ -7,4 +7,4 @@
     Add query filter operator for date type column: this month	Rain Chen	08/30/2009
 
 == Setup
-  read docs/INSTALL
+  read doc/INSTALL
