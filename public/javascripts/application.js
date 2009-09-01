@@ -158,7 +158,7 @@ Event.observe(window, 'load', function() {
   var estimated = $$('th[title*=Estimated]');
  if(estimated.length > 0){
    estimated = estimated[0];
-   var sum = ($$("td.estimated_hours").inject(0, function(sum, td){ sum = sum+parseFloat(td.innerHTML);return sum; })).toFixed(1);
+   var sum = ($$("td.estimated_hours").inject(0, function(sum, td){ sum = sum+parseFloat(0.0+td.innerHTML);return sum; })).toFixed(1);
    estimated.innerHTML = estimated.innerHTML + "("+sum+")";
  }
 });
