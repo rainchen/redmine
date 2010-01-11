@@ -173,6 +173,28 @@ Element.addMethods({
   }
 });
 
+// Enable to append image attachments
+function init_document_attachments(){
+  if(!$("document_description"))return;
+  $$(".attachments p").each(function(p){
+    p.insert('<span class="jstElements"><button type="button" tabindex="200" class="jstb_img" title="Image"><span>Image</span></button></span>');
+    p.select(".jstElements")[0].observe('click', function(){
+      var button = this;
+      var text = "";
+      // find attachment description
+      var desc = button.previous(".icon-attachment").nextSibling.nodeValue.replace(/(\s+)$/, "");
+      if(desc != ""){
+        text = "\n\nh3. "+desc.replace(/^( - )/, "");
+      }
+      // find attachment href
+      var href = button.previous(".icon-attachment").readAttribute('href');
+      text = text + "\n\n" +"!"+href+"!";
+      // append text to textarea
+      $("document_description").value = ($("document_description").value + text);
+    });
+  });
+}
+
 // show sum of spent time
 Event.observe(window, 'load', function() {
   var spent;
@@ -181,4 +203,6 @@ Event.observe(window, 'load', function() {
    var sum = ($$("td.spent_hours").inject(0, function(sum, td){ sum = sum+parseFloat(td.getInnerText() == '-' ? 0.0 : td.getInnerText().replace(/ hour/, ''));return sum; })).toFixed(1);
    spent.innerHTML = spent.innerHTML + "("+sum+")";
  }
+
+ init_document_attachments();
 });
