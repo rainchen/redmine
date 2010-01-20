@@ -57,6 +57,7 @@ class Issue < ActiveRecord::Base
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
   
   after_save :create_journal
+  before_save :set_done_ratio_by_status
   
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
@@ -324,4 +325,12 @@ class Issue < ActiveRecord::Base
       @current_journal.save
     end
   end
+
+  # When issue update and its' status has been changed to "Resolved" and the "Done" is 0%, then auto set the "Done" to 100%
+  def set_done_ratio_by_status
+    if done_ratio == 0 && status_id_changed? && IssueStatus.find(status_id).to_s == "Resolved"
+      self.done_ratio = 100
+    end
+  end
+
 end

@@ -1,5 +1,6 @@
 == About
   added features:
+    Auto set "Done" to 100% when status has been changed to "Resolved"	@	01/20/2010
     auto set status by "Assigned to"	@	01/20/2010
     add images links in document quickly	@	01/11/2010
     Remove Watchers	@	08/30/2009

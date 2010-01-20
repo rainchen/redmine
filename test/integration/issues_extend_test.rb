@@ -65,4 +65,19 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 2, issue.status.id
   end
 
+  def test_auto_set_done_ratio_when_resolved
+    log_user('jsmith', 'jsmith')
+
+    post 'issues/1/edit',
+            :issue => {
+              :status_id => IssueStatus.find_by_name('Resolved').id,
+              :done_ratio => "0"
+            }
+       
+    assert_redirected_to "issues/1"
+
+    assert_equal "Resolved", Issue.find(1).status.name
+    assert_equal 100, Issue.find(1).done_ratio
+  end
+
 end
