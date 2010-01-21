@@ -328,7 +328,7 @@ class Issue < ActiveRecord::Base
 
   # When issue update and its' status has been changed to "Resolved" and the "Done" is 0%, then auto set the "Done" to 100%
   def set_done_ratio_by_status
-    if done_ratio == 0 && status_id_changed? && IssueStatus.find(status_id).to_s == "Resolved"
+    if done_ratio == 0 && status_id_changed? && IssueStatus.find(status_id).id == IssueStatus::DEFAULTS["Resolved"]
       self.done_ratio = 100
     end
   end
