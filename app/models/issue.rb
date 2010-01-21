@@ -158,7 +158,7 @@ class Issue < ActiveRecord::Base
     # when create a new issue, after setting "Assigned to", and the Status is "New", then the status should be setted to "Assigned"
     # Hack by RainChen
     if !assigned_to.nil? && self.status.name == 'New'
-      self.status = IssueStatus.find_by_name('Assigned') || self.status
+      self.status = IssueStatus.find(IssueStatus::DEFAULTS['Assigned']) || self.status
     end
   end
   

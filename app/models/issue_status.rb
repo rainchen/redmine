@@ -16,6 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueStatus < ActiveRecord::Base
+  # IssueStatus::DEFAULTS
+  #=> {"New"=>1, "Rejected"=>6, nil=>0, "Closed"=>5, "Assigned"=>2, "Resolved"=>3, "Feedback"=>4}
+  DEFAULTS = Hash[*([nil]+%w(New Assigned Resolved Feedback Closed Rejected)).inject([]) {|ret, v| ret+=[v,ret.size/2] }.flatten]
+
   before_destroy :check_integrity  
   has_many :workflows, :foreign_key => "old_status_id", :dependent => :delete_all
   acts_as_list
